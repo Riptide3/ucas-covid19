@@ -56,6 +56,8 @@ if os.environ.get('GITHUB_RUN_ID', None):
     tg_chat_id = os.environ.get('TG_CHAT_ID', '')  # 和bot的chat_id
     tg_bot_token = os.environ.get('TG_BOT_TOKEN', '')  # bot的token
 
+    push_url = os.environ.get('PUSH_URL', '') # Bark推送的URL
+
 
 def login(s: requests.Session, username, password, cookie_file: Path):
     # r = s.get(
@@ -204,6 +206,8 @@ def message(key, sender, mail_passwd, receiver, bot_token, chat_id, subject, msg
         send_email(sender, mail_passwd, receiver, subject, msg)
     if tg_bot_token != "" and tg_chat_id != "":
         send_telegram_message(bot_token, chat_id, "{}\n{}".format(subject, msg))
+    if push_url != "":
+        send_push(push_url, subject, msg)
 
 
 def server_chan_message(key, title, body):
@@ -250,6 +254,10 @@ def send_telegram_message(bot_token, chat_id, msg):
     import telegram 
     bot = telegram.Bot(token=bot_token)
     bot.send_message(chat_id=chat_id, text=msg)
+
+def send_push(push_url, title, body):
+    send_push_url = push_url + f'/{title}/{body}'
+    requests.get(send_push_url)
 
 
 def report(username, password):
