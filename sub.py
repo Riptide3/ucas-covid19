@@ -39,6 +39,9 @@ receiver_email = ""
 tg_chat_id = ""  # 和bot的chat_id
 tg_bot_token = r""  # bot的token
 
+# 可选，Bark推送
+push_url = ""
+
 # 全局变量，使用自己的服务器运行请根据需要修改 ->以上变量<-
 
 # 如果检测到程序在 github actions 内运行，那么读取环境变量中的登录信息
